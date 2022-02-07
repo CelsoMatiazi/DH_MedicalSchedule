@@ -13,7 +13,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.login_frag_container, SignUpFragment())
+            .replace(R.id.login_frag_container, LoginFragment())
             .commit()
     }
 

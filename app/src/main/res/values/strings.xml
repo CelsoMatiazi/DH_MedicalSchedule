@@ -2,4 +2,6 @@
     <string name="app_name">MedicalSchedule</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Forgot_pass_subtitle">Enter your email for the verification proccesss, we will send 4 digits code to your email.</string>
+    <string name="reset_pass_subtitle">Set the new password for your account so you can login and access all the features.</string>
 </resources>
