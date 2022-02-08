@@ -1,14 +1,15 @@
 package com.matiazicelso.medicalschedule.ui.login
 
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.matiazicelso.medicalschedule.R
 import com.matiazicelso.medicalschedule.viewModel.LoginViewModel
@@ -29,19 +30,22 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         progressBar = view.findViewById(R.id.login_progressBar)
 
 
+        viewModel.progressBar.observe(viewLifecycleOwner){
+            if(it) loading(true) else loading(false)
+        }
+
 
         loginBtn.setOnClickListener {
-            loading(true)
             viewModel.makeLogin(email.text.toString(), password.text.toString())
-
         }
 
         viewModel.login.observe(viewLifecycleOwner){
-            loading(false)
             if(it){
-                Toast.makeText(view.context, "Sucesso", Toast.LENGTH_SHORT).show()
+                val snackBar = Snackbar.make(view, "Login efetuado com sucesso", Snackbar.LENGTH_LONG)
+                snackBar.setBackgroundTint(Color.parseColor("#0EBE7F")).show()
             }else{
-                Toast.makeText(view.context, "Usuario invalido", Toast.LENGTH_SHORT).show()
+                val snackBar = Snackbar.make(view, "Dados invalidos!", Snackbar.LENGTH_LONG)
+                snackBar.setBackgroundTint(Color.RED).show()
             }
         }
 
@@ -67,8 +71,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun loading(status: Boolean){
         progressBar.isVisible = status
     }
-
-
 
 
 }

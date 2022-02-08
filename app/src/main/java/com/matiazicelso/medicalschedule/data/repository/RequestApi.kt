@@ -1,6 +1,5 @@
 package com.matiazicelso.medicalschedule.data.repository
 
-
 class RequestApi {
 
     private val mockEmail = "teste@gmail.com"

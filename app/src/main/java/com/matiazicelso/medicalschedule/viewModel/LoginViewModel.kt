@@ -2,22 +2,42 @@ package com.matiazicelso.medicalschedule.viewModel
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.matiazicelso.medicalschedule.data.repository.RequestApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
 
     private val request = RequestApi()
 
     private val _login = MutableLiveData<Boolean>()
-    val login: LiveData<Boolean>
-        get() = _login
+    val login: LiveData<Boolean> = _login
+
+
+    private val _progressBar = MutableLiveData<Boolean>()
+    val progressBar: LiveData<Boolean> = _progressBar
+
 
     fun makeLogin(email: String, password: String){
-        Handler(Looper.getMainLooper()).postDelayed({
-            _login.value = request.login(email,password)
-        }, 2000)
+
+        viewModelScope.launch {
+            try {
+                _progressBar.value = true
+                delay(3000)
+                _login.value = request.login(email,password)
+            }catch(ex: Exception){
+                Log.e("ERROR", "Ocoreu um erro")
+            }finally {
+                _progressBar.value = false
+            }
+        }
     }
+
+
+
 }
