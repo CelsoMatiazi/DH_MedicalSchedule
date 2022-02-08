@@ -94,7 +94,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signup_textInput_name"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/signup_title_google_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +116,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signup_textInput_email"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/signup_textInput_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +136,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signup_title_textInput_password"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/signup_textInput_email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
