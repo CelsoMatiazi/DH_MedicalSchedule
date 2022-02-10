@@ -16,11 +16,13 @@ class LoginViewModel: ViewModel() {
     private val request = RequestApi()
 
     private val _login = MutableLiveData<Boolean>()
-    val login: LiveData<Boolean> = _login
+    val login: LiveData<Boolean>
+        get() = _login
 
 
     private val _progressBar = MutableLiveData<Boolean>()
-    val progressBar: LiveData<Boolean> = _progressBar
+    val progressBar: LiveData<Boolean>
+        get() = _progressBar
 
 
     fun makeLogin(email: String, password: String){

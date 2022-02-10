@@ -31,7 +31,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
 
         viewModel.progressBar.observe(viewLifecycleOwner){
-            if(it) loading(true) else loading(false)
+            loading(it)
         }
 
 
