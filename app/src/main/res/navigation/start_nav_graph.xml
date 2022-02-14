@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/start_nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.matiazicelso.medicalschedule.ui.start_app.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_presentationOneFragment"
+            app:destination="@id/presentationOneFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/presentationOneFragment"
+        android:name="com.matiazicelso.medicalschedule.ui.start_app.PresentationOneFragment"
+        android:label="fragment_presentaion_one"
+        tools:layout="@layout/fragment_presentaion_one" >
+        <action
+            android:id="@+id/action_presentationOneFragment_to_presentationTwoFragment"
+            app:destination="@id/presentationTwoFragment" />
+        <action
+            android:id="@+id/action_presentationOneFragment_to_presentationThreeFragment"
+            app:destination="@id/presentationThreeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/presentationTwoFragment"
+        android:name="com.matiazicelso.medicalschedule.ui.start_app.PresentationTwoFragment"
+        android:label="fragment_presentation_two"
+        tools:layout="@layout/fragment_presentation_two" >
+        <action
+            android:id="@+id/action_presentationTwoFragment_to_presentationThreeFragment"
+            app:destination="@id/presentationThreeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/presentationThreeFragment"
+        android:name="com.matiazicelso.medicalschedule.ui.start_app.PresentationThreeFragment"
+        android:label="fragment_presentation_three"
+        tools:layout="@layout/fragment_presentation_three" >
+        <action
+            android:id="@+id/action_presentationThreeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.matiazicelso.medicalschedule.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.matiazicelso.medicalschedule.ui.login.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
+</navigation>

@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.matiazicelso.medicalschedule.data.repository.RequestApi
+import com.matiazicelso.medicalschedule.utils.SingleEventLiveData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -18,6 +19,10 @@ class LoginViewModel: ViewModel() {
     private val _login = MutableLiveData<Boolean>()
     val login: LiveData<Boolean>
         get() = _login
+
+//    private val _login = SingleEventLiveData<Boolean>()
+//    val login: LiveData<Boolean>
+//        get() = _login
 
 
     private val _progressBar = MutableLiveData<Boolean>()
@@ -39,7 +44,5 @@ class LoginViewModel: ViewModel() {
             }
         }
     }
-
-
 
 }

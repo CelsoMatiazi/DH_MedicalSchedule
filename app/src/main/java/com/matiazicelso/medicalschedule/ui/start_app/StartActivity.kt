@@ -12,8 +12,5 @@ class StartActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.startApp_frag_container, SplashFragment())
-            .commit()
     }
 }

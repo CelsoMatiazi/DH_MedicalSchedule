@@ -11,10 +11,6 @@ class LoginActivity : AppCompatActivity() {
 
         this.supportActionBar?.hide()
 
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.login_frag_container, LoginFragment())
-            .commit()
     }
 
 }

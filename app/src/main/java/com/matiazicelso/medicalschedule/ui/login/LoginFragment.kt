@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.matiazicelso.medicalschedule.R
@@ -25,18 +26,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val forgotBtn = view.findViewById<TextView>(R.id.login_forgot)
         val newAccountBtn = view.findViewById<TextView>(R.id.login_new_account)
         val loginBtn = view.findViewById<TextView>(R.id.login_btn)
-        val email = view.findViewById<TextInputEditText>(R.id.login_email)
-        val password = view.findViewById<TextInputEditText>(R.id.login_password)
+
         progressBar = view.findViewById(R.id.login_progressBar)
 
 
         viewModel.progressBar.observe(viewLifecycleOwner){
             loading(it)
-        }
-
-
-        loginBtn.setOnClickListener {
-            viewModel.makeLogin(email.text.toString(), password.text.toString())
         }
 
         viewModel.login.observe(viewLifecycleOwner){
@@ -49,6 +44,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         }
 
+
+        loginBtn.setOnClickListener {
+            login(view)
+        }
+
+
+
         forgotBtn.setOnClickListener {
             parentFragmentManager.let {
                 ForgotPasswordFragment.newInstance(Bundle()).apply {
@@ -58,11 +60,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
 
         newAccountBtn.setOnClickListener {
-
-            parentFragmentManager.beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.login_frag_container, SignUpFragment())
-                .commit()
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
 
 
@@ -72,5 +70,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         progressBar.isVisible = status
     }
 
+
+    private fun login(view: View){
+        val email = view.findViewById<TextInputEditText>(R.id.login_email)
+        val password = view.findViewById<TextInputEditText>(R.id.login_password)
+
+        viewModel.makeLogin(email?.text.toString(), password?.text.toString())
+
+    }
 
 }

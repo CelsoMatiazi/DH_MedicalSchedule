@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.matiazicelso.medicalschedule.R
 
 class PresentationOneFragment : Fragment(R.layout.fragment_presentaion_one,) {
@@ -20,10 +21,7 @@ class PresentationOneFragment : Fragment(R.layout.fragment_presentaion_one,) {
         val skipBtn = view.findViewById<TextView>(R.id.presentation_one_skip)
 
         nextBtn.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.startApp_frag_container, PresentationTwoFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.action_presentationOneFragment_to_presentationTwoFragment)
         }
     }
 

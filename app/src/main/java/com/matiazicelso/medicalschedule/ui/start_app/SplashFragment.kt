@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.matiazicelso.medicalschedule.R
 import com.matiazicelso.medicalschedule.ui.login.LoginFragment
 
@@ -18,9 +19,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
 
         Handler(Looper.getMainLooper()).postDelayed({
 
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.startApp_frag_container, PresentationOneFragment())
-                .commit()
+        findNavController().navigate(R.id.action_splashFragment_to_presentationOneFragment)
+
         }, 4000)
 
     }

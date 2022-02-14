@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.matiazicelso.medicalschedule.R
 import com.matiazicelso.medicalschedule.ui.login.LoginActivity
 
@@ -17,7 +18,8 @@ class PresentationThreeFragment : Fragment(R.layout.fragment_presentation_three)
         val nextBtn = view.findViewById<Button>(R.id.presentation_three_btn)
 
         nextBtn.setOnClickListener {
-            startActivity(Intent(context, LoginActivity::class.java))
+           // startActivity(Intent(context, LoginActivity::class.java))
+            findNavController().navigate(R.id.action_presentationThreeFragment_to_loginFragment)
         }
     }
 
