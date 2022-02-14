@@ -36,10 +36,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         viewModel.login.observe(viewLifecycleOwner){
             if(it){
-                val snackBar = Snackbar.make(view, "Login efetuado com sucesso", Snackbar.LENGTH_LONG)
+                val snackBar = Snackbar.make(view, "Login efetuado com sucesso", Snackbar.LENGTH_SHORT)
                 snackBar.setBackgroundTint(Color.parseColor("#0EBE7F")).show()
             }else{
-                val snackBar = Snackbar.make(view, "Dados invalidos!", Snackbar.LENGTH_LONG)
+                val snackBar = Snackbar.make(view, "Dados invalidos!", Snackbar.LENGTH_SHORT)
                 snackBar.setBackgroundTint(Color.RED).show()
             }
         }
@@ -62,7 +62,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         newAccountBtn.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
-
 
     }
 

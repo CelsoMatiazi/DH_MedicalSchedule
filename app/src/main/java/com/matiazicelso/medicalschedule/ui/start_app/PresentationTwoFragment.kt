@@ -20,7 +20,16 @@ class PresentationTwoFragment : Fragment(R.layout.fragment_presentation_two){
         val skipBtn = view.findViewById<TextView>(R.id.presentation_two_skip)
 
         nextBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_presentationTwoFragment_to_presentationThreeFragment)
+            sendToPresentationThree()
         }
+
+        skipBtn.setOnClickListener {
+            sendToPresentationThree()
+        }
+
+    }
+
+    private fun sendToPresentationThree(){
+        findNavController().navigate(R.id.action_presentationTwoFragment_to_presentationThreeFragment)
     }
 }

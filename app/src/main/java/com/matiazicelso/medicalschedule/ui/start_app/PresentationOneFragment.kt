@@ -23,6 +23,10 @@ class PresentationOneFragment : Fragment(R.layout.fragment_presentaion_one,) {
         nextBtn.setOnClickListener {
             findNavController().navigate(R.id.action_presentationOneFragment_to_presentationTwoFragment)
         }
+
+        skipBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_presentationOneFragment_to_presentationThreeFragment)
+        }
     }
 
 

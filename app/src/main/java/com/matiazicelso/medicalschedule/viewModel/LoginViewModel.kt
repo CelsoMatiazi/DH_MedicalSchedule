@@ -35,7 +35,7 @@ class LoginViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 _progressBar.value = true
-                delay(3000)
+                delay(2000)
                 _login.value = request.login(email,password)
             }catch(ex: Exception){
                 Log.e("ERROR", "Ocoreu um erro")
