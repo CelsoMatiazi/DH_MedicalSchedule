@@ -50,7 +50,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
 
 
-
         forgotBtn.setOnClickListener {
             parentFragmentManager.let {
                 ForgotPasswordFragment.newInstance(Bundle()).apply {

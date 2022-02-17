@@ -16,13 +16,13 @@ class LoginViewModel: ViewModel() {
 
     private val request = RequestApi()
 
-    private val _login = MutableLiveData<Boolean>()
-    val login: LiveData<Boolean>
-        get() = _login
-
-//    private val _login = SingleEventLiveData<Boolean>()
+//    private val _login = MutableLiveData<Boolean>()
 //    val login: LiveData<Boolean>
 //        get() = _login
+
+    private val _login = SingleEventLiveData<Boolean>()
+    val login: LiveData<Boolean>
+        get() = _login
 
 
     private val _progressBar = MutableLiveData<Boolean>()
@@ -35,7 +35,7 @@ class LoginViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 _progressBar.value = true
-                delay(2000)
+                 delay(2000)
                 _login.value = request.login(email,password)
             }catch(ex: Exception){
                 Log.e("ERROR", "Ocoreu um erro")
