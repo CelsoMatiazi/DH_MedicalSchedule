@@ -7,6 +7,7 @@ android {
     compileSdk 31
 
     defaultConfig {
+        buildConfigField ("String", "BASE_URL", "\"https://randomuser.me/\"")
         applicationId "com.matiazicelso.medicalschedule"
         minSdk 21
         targetSdk 31
@@ -44,6 +45,15 @@ dependencies {
 
     implementation("androidx.fragment:fragment-ktx:1.4.1")
     implementation 'com.google.code.gson:gson:2.9.0'
+
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.4.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.4.0")

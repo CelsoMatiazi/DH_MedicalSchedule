@@ -16,10 +16,6 @@ class LoginViewModel: ViewModel() {
 
     private val request = RequestApi()
 
-//    private val _login = MutableLiveData<Boolean>()
-//    val login: LiveData<Boolean>
-//        get() = _login
-
     private val _login = SingleEventLiveData<Boolean>()
     val login: LiveData<Boolean>
         get() = _login
