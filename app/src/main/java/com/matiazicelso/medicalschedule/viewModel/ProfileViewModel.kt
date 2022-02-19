@@ -1,12 +1,14 @@
 package com.matiazicelso.medicalschedule.viewModel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.matiazicelso.medicalschedule.data.model.ProfileItem
+import com.matiazicelso.medicalschedule.data.model.UserProfile
 import com.matiazicelso.medicalschedule.data.repository.UserRepository
-import com.matiazicelso.medicalschedule.utils.SingleEventLiveData
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
@@ -16,8 +18,8 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(
     private val repository: UserRepository = UserRepository.instance): ViewModel() {
 
-    private val _profile = MutableLiveData<ProfileItem>()
-    val profile: LiveData<ProfileItem>
+    private val _profile = MutableLiveData<UserProfile>()
+    val profile: LiveData<UserProfile>
         get() = _profile
 
 
@@ -26,18 +28,21 @@ class ProfileViewModel(
         get() = _loading
 
 
-    private val _error = SingleEventLiveData<Boolean>()
+    //private val _error = SingleEventLiveData<Boolean>()
+    private val _error = MutableLiveData<Boolean>()
     val error: LiveData<Boolean>
         get() = _error
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun loadProfile(){
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 repository.fetchProfile()
-                    .onStart { _loading.value = true }
-                    .catch { _error.value = true }
-                    .onCompletion { _loading.value = false }
+                    .onStart { _loading.postValue(true) }
+                    .catch { _error.postValue(true) }
+                    .onCompletion { _loading.postValue(false) }
                     .collect {
-                        _profile.value = it.results.first()
+                        val result = it.results.first()
+                        _profile.postValue(UserProfile(result))
                     }
             }
         }

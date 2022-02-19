@@ -49,23 +49,13 @@ class ProfileActivity : AppCompatActivity(R.layout.activity_profile) {
 
         viewModel.profile.observe(this){
 
-
-            name.setText("${it.name.first} ${it.name.last} ")
+            name.setText(it.name)
             phone.setText(it.phone)
-            date.setText(convertDate(it.dob.date))
-            location.setText(it.location.city)
-            Glide.with(this).load(it.picture.large).into(image)
-
+            date.setText(it.dob)
+            location.setText(it.location)
+            Glide.with(this).load(it.image).into(image)
             //Toast.makeText(this, "Deu Certo", Toast.LENGTH_SHORT ).show()
         }
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun convertDate(date: String): String{
-        val newDate = date.dropLast(1)
-        val d = LocalDateTime.parse(newDate)
-        return "${d.dayOfMonth}/${d.monthValue}/${d.year}"
     }
 
 }
