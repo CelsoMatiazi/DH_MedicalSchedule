@@ -7,7 +7,6 @@ import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 class UserProfile( user: ProfileItem ){
-
     val name = "${user.name.first} ${user.name.last}"
     val phone = user.phone
     val dob = convertDate(user.dob.date)

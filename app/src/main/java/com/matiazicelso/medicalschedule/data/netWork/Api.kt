@@ -16,7 +16,6 @@ interface Api {
             RetrofitFactory.build(
                 OkHttpClientFactory.build(),
                 GsonFactory.build()
-
             ).create(Api::class.java)
         }
     }

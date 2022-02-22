@@ -1,7 +1,7 @@
 package com.matiazicelso.medicalschedule.data.model
 
 class UserLogin(
-    val email: String,
+    var email: String,
     val password: String
 )
 

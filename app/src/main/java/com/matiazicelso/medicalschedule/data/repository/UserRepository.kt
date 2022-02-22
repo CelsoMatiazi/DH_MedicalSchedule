@@ -9,7 +9,10 @@ import kotlinx.coroutines.flow.flowOn
 
 class UserRepository(private val api: Api = Api.instance) {
     fun fetchProfile() : Flow<ProfileResponse> = flow {
-        emit(api.getProfile())
+        while(true){
+            emit(api.getProfile())
+            kotlinx.coroutines.delay(5000)
+        }
     }.flowOn(Dispatchers.IO)
 
 

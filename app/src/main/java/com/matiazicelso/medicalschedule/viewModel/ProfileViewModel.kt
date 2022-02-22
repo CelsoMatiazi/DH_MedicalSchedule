@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.matiazicelso.medicalschedule.data.model.UserProfile
 import com.matiazicelso.medicalschedule.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
@@ -39,11 +40,15 @@ class ProfileViewModel(
                 repository.fetchProfile()
                     .onStart { _loading.postValue(true) }
                     .catch { _error.postValue(true) }
-                    .onCompletion { _loading.postValue(false) }
+                    //.onCompletion { _loading.postValue(false) }
                     .collect {
                         val result = it.results.first()
                         _profile.postValue(UserProfile(result))
+                        _loading.postValue(false)
+                        delay(5000)
+                        _loading.postValue(true)
                     }
+
             }
         }
 }
