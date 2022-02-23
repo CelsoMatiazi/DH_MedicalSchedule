@@ -40,13 +40,13 @@ class ProfileViewModel(
                 repository.fetchProfile()
                     .onStart { _loading.postValue(true) }
                     .catch { _error.postValue(true) }
-                    //.onCompletion { _loading.postValue(false) }
+                    .onCompletion { _loading.postValue(false) }
                     .collect {
                         val result = it.results.first()
                         _profile.postValue(UserProfile(result))
-                        _loading.postValue(false)
-                        delay(5000)
-                        _loading.postValue(true)
+//                        _loading.postValue(false)
+//                        delay(5000)
+//                        _loading.postValue(true)
                     }
 
             }

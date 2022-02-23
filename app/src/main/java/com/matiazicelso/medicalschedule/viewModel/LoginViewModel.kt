@@ -1,39 +1,32 @@
 package com.matiazicelso.medicalschedule.viewModel
 
-
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.matiazicelso.medicalschedule.data.model.LoginResponse
-import com.matiazicelso.medicalschedule.data.model.LoginSession
-import com.matiazicelso.medicalschedule.data.model.UserLogin
-import com.matiazicelso.medicalschedule.data.model.UserProfile
+import com.google.gson.Gson
+import com.matiazicelso.medicalschedule.data.model.*
 import com.matiazicelso.medicalschedule.data.repository.LoginRepository
-import com.matiazicelso.medicalschedule.data.repository.RequestApi
-import com.matiazicelso.medicalschedule.data.repository.UserRepository
 import com.matiazicelso.medicalschedule.utils.SingleEventLiveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class LoginViewModel(
-    private val loginRepository: LoginRepository = LoginRepository.instance): ViewModel() {
+    private val loginRepository: LoginRepository = LoginRepository.instance
+) : ViewModel() {
 
-    //private val request = RequestApi()
-
-    private val _profile = MutableLiveData<LoginSession>()
+    private val _dataUser = MutableLiveData<LoginSession>()
     val profile: LiveData<LoginSession>
-        get() = _profile
+        get() = _dataUser
 
-    private val _login = SingleEventLiveData<Boolean>()
-    val login: LiveData<Boolean>
-        get() = _login
+    private val _loginStatus = SingleEventLiveData<Boolean>()
+    val loginStatus: LiveData<Boolean>
+        get() = _loginStatus
 
     private val _progressBar = MutableLiveData<Boolean>()
     val progressBar: LiveData<Boolean>
@@ -46,17 +39,30 @@ class LoginViewModel(
 
     fun makeLogin(email: String, password: String){
 
-        val dataLogin = UserLogin(email, password)
+        val login = UserLogin(email, password)
 
         viewModelScope.launch(Dispatchers.IO) {
-                loginRepository.fetchLogin()
-
+                loginRepository.fetchLogin(login)
                     .onStart { _progressBar.postValue(true) }
-                    .catch { _error.postValue(true) }
+                    .catch { exception ->
+                        if(exception is HttpException){
+                            var errorType: String?
+                            val code = exception.code()
+                            exception.response()?.errorBody()?.string()?.let {
+                                val apiError = Gson().fromJson(it, ApiError::class.java)
+                                errorType = apiError.type
+                               _loginStatus.postValue(false)
+                            }
+                        }
+                    }
                     .onCompletion { _progressBar.postValue(false) }
                     .collect {
-                        val result = it.loginResult
-                        _profile.postValue(result)
+                        val result = it
+                        _dataUser.postValue(result)
+                        _loginStatus.postValue(true)
+
+                        UserSettings.token = result.token
+                        UserSettings.user = result.user
 
                     }
         }

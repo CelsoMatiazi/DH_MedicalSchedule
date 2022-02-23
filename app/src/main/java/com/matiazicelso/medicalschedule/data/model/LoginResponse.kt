@@ -1,7 +1,5 @@
 package com.matiazicelso.medicalschedule.data.model
 
-data class LoginResponse(val loginResult: LoginSession)
-
 data class LoginSession(
     val user: User,
     val token: String

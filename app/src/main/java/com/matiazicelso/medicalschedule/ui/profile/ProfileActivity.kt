@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.android.material.textfield.TextInputEditText
 import com.matiazicelso.medicalschedule.R
+import com.matiazicelso.medicalschedule.data.model.UserSettings
 import com.matiazicelso.medicalschedule.viewModel.ProfileViewModel
 import java.sql.Timestamp
 import java.time.LocalDate
@@ -36,7 +37,13 @@ class ProfileActivity : AppCompatActivity(R.layout.activity_profile) {
 
         viewModel.loadProfile()
 
-        observeData()
+        name.setText(UserSettings.user?.name)
+        phone.setText(UserSettings.user?.phone)
+        date.setText(UserSettings.user?.bday)
+        location.setText(UserSettings.user?.location)
+        Glide.with(this).load(UserSettings.user?.photo).into(image)
+
+        //observeData()
 
     }
 
@@ -48,7 +55,6 @@ class ProfileActivity : AppCompatActivity(R.layout.activity_profile) {
         }
 
         viewModel.profile.observe(this){
-
             name.setText(it.name)
             phone.setText(it.phone)
             date.setText(it.dob)

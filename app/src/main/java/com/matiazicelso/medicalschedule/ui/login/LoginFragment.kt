@@ -1,6 +1,7 @@
 package com.matiazicelso.medicalschedule.ui.login
 
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -34,13 +35,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             loading(it)
         }
 
-        viewModel.login.observe(viewLifecycleOwner){
+        viewModel.loginStatus.observe(viewLifecycleOwner){
             if(it){
-                val snackBar = Snackbar.make(view, "Login efetuado com sucesso", Snackbar.LENGTH_SHORT)
-                snackBar.setBackgroundTint(Color.parseColor("#0EBE7F")).show()
+                findNavController().navigate(R.id.action_loginFragment_to_profileActivity)
             }else{
-                val snackBar = Snackbar.make(view, "Dados invalidos!", Snackbar.LENGTH_SHORT)
-                snackBar.setBackgroundTint(Color.RED).show()
+                showDialog()
             }
         }
 
@@ -70,10 +69,21 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
 
     private fun login(view: View){
+
         val email = view.findViewById<TextInputEditText>(R.id.login_email)
         val password = view.findViewById<TextInputEditText>(R.id.login_password)
-
         viewModel.makeLogin(email?.text.toString(), password?.text.toString())
+
+    }
+
+
+    private fun showDialog(){
+        val items = arrayOf("Verifique o seu usuario ou senha.")
+        AlertDialog
+            .Builder(context)
+            .setTitle("Login invalido")
+            .setItems(items){dialog, item -> dialog.dismiss()}
+            .show()
 
     }
 
