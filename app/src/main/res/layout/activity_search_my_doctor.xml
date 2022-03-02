@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.search_doctor.SearchMyDoctorActivity">
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ellipse_blue"
+        app:layout_constraintTop_toTopOf="parentparent"
+        app:layout_constraintStart_toStartOf="parentparent"
+    />
+
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ellipse_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+
+    <ImageView
+        android:id="@+id/search_back_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/start_guideLine"
+        android:src="@drawable/ic_back_icon"
+        android:layout_marginTop="50dp"
+    />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/search_back_icon"
+        app:layout_constraintTop_toTopOf="@id/search_back_icon"
+        app:layout_constraintBottom_toBottomOf="@id/search_back_icon"
+        android:layout_marginStart="19dp"
+        android:text="My Doctors"
+        style="@style/Title"
+    />
+
+
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_searchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/search_back_icon"
+        app:layout_constraintStart_toStartOf="@id/start_guideLine"
+        app:layout_constraintEnd_toEndOf="@id/end_guideLine"
+        app:defaultQueryHint="Search"
+        style="@style/SearchView"
+        android:layout_marginTop="34dp"
+    />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/search_searchView"
+        app:layout_constraintStart_toEndOf="@id/start_guideLine"
+        app:layout_constraintEnd_toEndOf="@id/end_guideLine"
+        android:layout_marginTop="24dp"
+        tools:itemCount="10"
+        tools:listitem="@layout/doctor_card_layout"
+    />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_begin="20dp"
+    />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_end="20dp"
+    />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
