@@ -44,9 +44,6 @@ class ProfileViewModel(
                     .collect {
                         val result = it.results.first()
                         _profile.postValue(UserProfile(result))
-//                        _loading.postValue(false)
-//                        delay(5000)
-//                        _loading.postValue(true)
                     }
 
             }

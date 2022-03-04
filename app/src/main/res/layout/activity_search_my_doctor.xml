@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ellipse_blue"
-        app:layout_constraintTop_toTopOf="parentparent"
-        app:layout_constraintStart_toStartOf="parentparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
     />
 
 
@@ -63,16 +63,16 @@
     />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/search_searchView"
-        app:layout_constraintStart_toEndOf="@id/start_guideLine"
-        app:layout_constraintEnd_toEndOf="@id/end_guideLine"
-        android:layout_marginTop="24dp"
-        tools:itemCount="10"
-        tools:listitem="@layout/doctor_card_layout"
-    />
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/search_searchView"-->
+<!--        app:layout_constraintStart_toEndOf="@id/start_guideLine"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/end_guideLine"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        tools:itemCount="10"-->
+<!--        tools:listitem="@layout/doctor_card_layout"-->
+<!--    />-->
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -95,6 +95,23 @@
         app:layout_constraintGuide_end="20dp"
     />
 
+
+    <FrameLayout
+        android:id="@+id/search_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_border"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        >
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

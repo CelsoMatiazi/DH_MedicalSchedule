@@ -37,7 +37,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         viewModel.loginStatus.observe(viewLifecycleOwner){
             if(it){
-                findNavController().navigate(R.id.action_loginFragment_to_profileActivity)
+                //findNavController().navigate(R.id.action_loginFragment_to_profileActivity)
+                findNavController().navigate(R.id.action_loginFragment_to_searchMyDoctorActivity)
             }else{
                 showDialog()
             }

@@ -14,10 +14,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.matiazicelso.medicalschedule.R
 import com.matiazicelso.medicalschedule.data.model.UserSettings
 import com.matiazicelso.medicalschedule.viewModel.ProfileViewModel
-import java.sql.Timestamp
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+
 
 class ProfileActivity : AppCompatActivity(R.layout.activity_profile) {
 

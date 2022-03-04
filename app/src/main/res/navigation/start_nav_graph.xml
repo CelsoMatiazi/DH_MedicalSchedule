@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_loginFragment_to_profileActivity"
             app:destination="@id/profileActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_searchMyDoctorActivity"
+            app:destination="@id/searchMyDoctorActivity" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -66,4 +69,9 @@
         android:name="com.matiazicelso.medicalschedule.ui.profile.ProfileActivity"
         android:label="activity_profile"
         tools:layout="@layout/activity_profile" />
+    <activity
+        android:id="@+id/searchMyDoctorActivity"
+        android:name="com.matiazicelso.medicalschedule.ui.search_doctor.SearchMyDoctorActivity"
+        android:label="activity_search_my_doctor"
+        tools:layout="@layout/activity_search_my_doctor" />
 </navigation>
