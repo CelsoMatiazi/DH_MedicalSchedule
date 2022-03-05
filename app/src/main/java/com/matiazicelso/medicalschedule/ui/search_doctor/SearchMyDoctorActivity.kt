@@ -6,6 +6,8 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.matiazicelso.medicalschedule.R
 import com.matiazicelso.medicalschedule.viewModel.DoctorViewModel
 
@@ -14,11 +16,14 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
 
     private val viewModel: DoctorViewModel by viewModels()
     private val loading: FrameLayout by lazy { findViewById(R.id.search_loading) }
+    private val recycler: RecyclerView by lazy { findViewById<RecyclerView>(R.id.search_recycler) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.supportActionBar?.hide()
+
+        recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         viewModel.loadDoctor()
         observeData()
@@ -35,11 +40,9 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
         }
 
         viewModel.doctors.observe(this){
-            println("DOCTORS")
-            println(it.results[0].name)
-            println(it.results[0].classification)
-            println(it.results[0].specialization)
-            println(it.results[0].views)
+
+            recycler.adapter = SearchDoctorAdapter(it.doctors)
+
         }
     }
 

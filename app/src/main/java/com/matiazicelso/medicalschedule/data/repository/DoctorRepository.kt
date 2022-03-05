@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flowOn
 class DoctorRepository(private val api: DoctorApi = DoctorApi.instance) {
 
     fun fetchDoctor(token : String) : Flow<DoctorResponse> = flow {
-        emit(api.getDoctor(token))
+        emit(api.getDoctor("application/json", token))
     }.flowOn(Dispatchers.IO)
 
 

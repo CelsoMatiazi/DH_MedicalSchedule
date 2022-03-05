@@ -1,5 +1,4 @@
 package com.matiazicelso.medicalschedule.data.netWork
-
 import com.matiazicelso.medicalschedule.data.factory.GsonFactory
 import com.matiazicelso.medicalschedule.data.factory.OkHttpClientFactory
 import com.matiazicelso.medicalschedule.data.factory.RetrofitFactoryDoctor
@@ -12,6 +11,7 @@ interface DoctorApi {
 
     @GET("doctor")
     suspend fun getDoctor(
+        @Header("Content-Type") content: String = "application/json",
         @Header("Authorization") authorization: String,
     ): DoctorResponse
 

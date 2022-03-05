@@ -22,6 +22,7 @@
             android:background="@color/green_transp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:scaleType="centerCrop"
         />
 
 
@@ -118,7 +119,7 @@
             app:layout_constraintTop_toBottomOf="@id/doctor_card_image"
             app:layout_constraintStart_toStartOf="@id/doctor_card_image"
             android:layout_marginTop="17dp"
-            tools:text="Next Available"
+            android:text="Next Available"
             style="@style/Subtitle_green"
             android:textStyle="bold"
         />
@@ -130,7 +131,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/card_doctor_available"
             app:layout_constraintStart_toStartOf="@id/card_doctor_available"
-            tools:text="10:00"
+            android:text="10:00"
             style="@style/Subtitle_green"
             android:textStyle="bold"
             android:textColor="@color/dark_grey"
@@ -144,7 +145,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/card_doctor_available"
             app:layout_constraintStart_toEndOf="@id/card_doctor_hour"
-            tools:text="AM tomorrow"
+            android:text="AM tomorrow"
             style="@style/Subtitle_green"
             android:textColor="@color/dark_grey"
             android:layout_marginTop="5dp"
