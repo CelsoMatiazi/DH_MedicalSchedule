@@ -30,9 +30,10 @@ class DoctorViewModel(
         get() = _error
 
 
-    fun loadDoctor(){
+
+    fun loadDoctor(page: Int){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.fetchDoctor(UserSettings.token ?: "")
+            repository.fetchDoctor(UserSettings.token ?: "", page)
                 .onStart { _loading.postValue(true) }
                 .catch { _error.postValue(true) }
                 .onCompletion { _loading.postValue(false) }

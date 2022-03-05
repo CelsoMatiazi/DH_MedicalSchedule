@@ -17,6 +17,9 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
     private val viewModel: DoctorViewModel by viewModels()
     private val loading: FrameLayout by lazy { findViewById(R.id.search_loading) }
     private val recycler: RecyclerView by lazy { findViewById<RecyclerView>(R.id.search_recycler) }
+    private val adapter = SearchDoctorAdapter()
+    var page: Int = 1
+    var pageLimit: Int = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +27,10 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
         this.supportActionBar?.hide()
 
         recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recycler.adapter = adapter
 
-        viewModel.loadDoctor()
+        viewModel.loadDoctor(page)
+        setScrollView()
         observeData()
     }
 
@@ -41,8 +46,37 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
 
         viewModel.doctors.observe(this){
 
-            recycler.adapter = SearchDoctorAdapter(it.doctors)
+            adapter.updateList(it.doctors)
+            pageLimit = it.limit_page
 
+        }
+    }
+
+
+    private fun setScrollView(){
+        recycler.run {
+            addOnScrollListener(object: RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val target = recyclerView.layoutManager as LinearLayoutManager
+
+                    val totalItemCount = target.itemCount
+
+                    val lastVisible: Int = target.findLastVisibleItemPosition()
+
+                    val lastItem: Boolean = lastVisible + 5 >= totalItemCount
+
+                    if((totalItemCount > 0 && lastItem) && (page < pageLimit)){
+                        page++
+                        viewModel.loadDoctor(page)
+
+                        println("PRINT PAGE")
+                        println(page)
+
+                    }
+                }
+            })
         }
     }
 

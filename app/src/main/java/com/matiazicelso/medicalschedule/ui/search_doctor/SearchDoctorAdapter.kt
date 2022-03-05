@@ -1,19 +1,22 @@
 package com.matiazicelso.medicalschedule.ui.search_doctor
 
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.matiazicelso.medicalschedule.R
 import com.matiazicelso.medicalschedule.data.model.DoctorItem
 import com.matiazicelso.medicalschedule.data.model.DoctorResponse
 
-class SearchDoctorAdapter(
-    private val doctors: List<DoctorItem>
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class SearchDoctorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+
+    private val doctors: MutableList<DoctorItem> = mutableListOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return DoctorsViewHolder(inflater.inflate(R.layout.doctor_card_layout, parent, false))
@@ -26,6 +29,12 @@ class SearchDoctorAdapter(
     }
 
     override fun getItemCount(): Int = doctors.size
+
+    fun updateList(items: List<DoctorItem>){
+        doctors.addAll(items)
+        notifyDataSetChanged()
+
+    }
 }
 
 
