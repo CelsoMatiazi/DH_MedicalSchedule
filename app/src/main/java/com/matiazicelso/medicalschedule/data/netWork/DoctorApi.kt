@@ -13,8 +13,6 @@ interface DoctorApi {
 
     @GET("doctor")
     suspend fun getDoctor(
-        @Header("Content-Type") content: String = "application/json",
-        @Header("Authorization") authorization: String,
         @Query("page") page: Int
     ): DoctorResponse
 

@@ -33,7 +33,7 @@ class DoctorViewModel(
 
     fun loadDoctor(page: Int){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.fetchDoctor(UserSettings.token ?: "", page)
+            repository.fetchDoctor(page)
                 .onStart { _loading.postValue(true) }
                 .catch { _error.postValue(true) }
                 .onCompletion { _loading.postValue(false) }
