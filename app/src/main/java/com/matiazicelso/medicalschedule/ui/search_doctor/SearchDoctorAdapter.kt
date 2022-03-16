@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -15,7 +17,7 @@ import com.matiazicelso.medicalschedule.data.model.DoctorResponse
 
 class SearchDoctorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
-    private val doctors: MutableList<DoctorItem> = mutableListOf()
+    private val diffUtil = AsyncListDiffer(this, DIFF_UTIL)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -24,17 +26,38 @@ class SearchDoctorAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
-            is DoctorsViewHolder -> holder.bind(doctors[position])
+            is DoctorsViewHolder -> holder.bind(diffUtil.currentList[position])
         }
     }
 
-    override fun getItemCount(): Int = doctors.size
+    override fun getItemCount(): Int = diffUtil.currentList.size
 
     fun updateList(items: List<DoctorItem>){
-        doctors.addAll(items)
-        notifyDataSetChanged()
+        diffUtil.submitList(diffUtil.currentList.plus(items))
 
     }
+
+    fun updateListDB(items: List<DoctorItem>){
+        diffUtil.submitList(items)
+
+    }
+
+
+
+    companion object{
+        val DIFF_UTIL = object : DiffUtil.ItemCallback<DoctorItem>() {
+
+            override fun areItemsTheSame(oldItem: DoctorItem, newItem: DoctorItem): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: DoctorItem, newItem: DoctorItem): Boolean {
+                return oldItem == newItem
+            }
+
+        }
+    }
+
 }
 
 

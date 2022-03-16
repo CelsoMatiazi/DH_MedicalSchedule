@@ -1,4 +1,4 @@
-package com.matiazicelso.medicalschedule.data.iterceptor
+package com.matiazicelso.medicalschedule.data.interceptor
 
 import com.matiazicelso.medicalschedule.data.model.UserSettings
 import okhttp3.Interceptor

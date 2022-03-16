@@ -1,7 +1,7 @@
 package com.matiazicelso.medicalschedule.data.factory
 
 import com.matiazicelso.medicalschedule.BuildConfig
-import com.matiazicelso.medicalschedule.data.iterceptor.TokenInterceptor
+import com.matiazicelso.medicalschedule.data.interceptor.TokenInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
@@ -12,10 +12,11 @@ object OkHttpClientFactory {
 
         addInterceptor(TokenInterceptor())
 
+
         if(BuildConfig.DEBUG){
-            val logginInterceptor = HttpLoggingInterceptor()
-            logginInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            addInterceptor(logginInterceptor)
+            val loginInterceptor = HttpLoggingInterceptor()
+            loginInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            addInterceptor(loginInterceptor)
         }
 
         readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -27,3 +28,4 @@ object OkHttpClientFactory {
     private const val DEFAULT_TIMEOUT = 60L
 
 }
+

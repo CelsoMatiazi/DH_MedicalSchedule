@@ -1,6 +1,7 @@
 package com.matiazicelso.medicalschedule.data.model
 
 data class ProfileResponse(val results: List<ProfileItem>)
+
 data class ProfileItem(
     val name: ProfileName,
     val phone: String,

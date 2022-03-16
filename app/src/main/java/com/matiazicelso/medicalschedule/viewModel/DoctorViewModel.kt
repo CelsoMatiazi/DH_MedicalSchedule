@@ -8,6 +8,7 @@ import com.matiazicelso.medicalschedule.data.model.DoctorResponse
 import com.matiazicelso.medicalschedule.data.model.UserSettings
 import com.matiazicelso.medicalschedule.data.repository.DoctorRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
@@ -36,7 +37,9 @@ class DoctorViewModel(
             repository.fetchDoctor(page)
                 .onStart { _loading.postValue(true) }
                 .catch { _error.postValue(true) }
-                .onCompletion { _loading.postValue(false) }
+                .onCompletion {
+                     delay(3000)
+                    _loading.postValue(false) }
                 .collect {
                     val result = it
                     _doctors.postValue(result)
