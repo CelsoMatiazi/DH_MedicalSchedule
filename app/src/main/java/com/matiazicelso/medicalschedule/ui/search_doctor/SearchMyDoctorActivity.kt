@@ -23,6 +23,7 @@ import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAM
 import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_SPECIALIZATION
 import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_VIEWS
 import com.matiazicelso.medicalschedule.data.model.DoctorItem
+import com.matiazicelso.medicalschedule.data.netWork.DataResult
 import com.matiazicelso.medicalschedule.viewModel.DoctorViewModel
 
 
@@ -30,7 +31,7 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
 
     private val viewModel: DoctorViewModel by viewModels()
     private val loading: FrameLayout by lazy { findViewById(R.id.search_loading) }
-    private val recycler: RecyclerView by lazy { findViewById<RecyclerView>(R.id.search_recycler) }
+    private val recycler: RecyclerView by lazy { findViewById(R.id.search_recycler) }
     private val adapter = SearchDoctorAdapter()
     var page: Int = 1
     var pageLimit: Int = 1
@@ -59,9 +60,9 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
             adapter.notifyDataSetChanged()
         }
 
-        viewModel.loadDoctor(page)
+        //viewModel.loadDoctor(page)
         setScrollView() //controla a paginação
-        observeData()
+        loadDoctors(page)
     }
 
 
@@ -111,23 +112,35 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
     }
 
 
-    private fun observeData() {
-        viewModel.loading.observe(this){ loading.isVisible = it }
+    private fun loadDoctors(page: Int) {
 
-        viewModel.error.observe(this) {
-            if(it){
-                Toast.makeText(this, "Deu Erro", Toast.LENGTH_SHORT ).show()
+        viewModel.loadDoctor(page).observe(this){
+
+            when(it){
+                is DataResult.Loading -> {loading.isVisible = it.isLoading}
+                is DataResult.Error -> {
+                    Toast.makeText(this, "Deu Erro", Toast.LENGTH_SHORT ).show()
+                }
+                is DataResult.Empty -> {}
+                is DataResult.Success -> {
+                    adapter.updateList(it.data.doctors)
+                    pageLimit = it.data.limit_page
+                }
             }
-        }
-
-        viewModel.doctors.observe(this){
-
-            adapter.updateList(it.doctors)
-            pageLimit = it.limit_page
-
-            saveDoctorsDb(it.doctors)
 
         }
+
+//        viewModel.loading.observe(this){ loading.isVisible = it }
+//        viewModel.error.observe(this) {
+//            if(it){
+//                Toast.makeText(this, "Deu Erro", Toast.LENGTH_SHORT ).show()
+//            }
+//        }
+//        viewModel.doctors.observe(this){
+//            adapter.updateList(it.doctors)
+//            pageLimit = it.limit_page
+//            //saveDoctorsDb(it.doctors)
+//        }
     }
 
 
@@ -144,7 +157,7 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
 
                     if( (totalItemCount > 0 && lastItem) && (page < pageLimit && loading.isVisible.not()) ){
                         page++
-                        viewModel.loadDoctor(page)
+                        loadDoctors(page)
 
                         println("PRINT PAGE")
                         println(page)

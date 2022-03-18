@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.matiazicelso.medicalschedule.data.model.UserProfile
 import com.matiazicelso.medicalschedule.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
@@ -17,17 +16,16 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
+
     private val repository: UserRepository = UserRepository.instance): ViewModel() {
 
     private val _profile = MutableLiveData<UserProfile>()
     val profile: LiveData<UserProfile>
         get() = _profile
 
-
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean>
         get() = _loading
-
 
     //private val _error = SingleEventLiveData<Boolean>()
     private val _error = MutableLiveData<Boolean>()
