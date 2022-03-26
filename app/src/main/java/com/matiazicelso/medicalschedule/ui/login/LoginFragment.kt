@@ -2,21 +2,37 @@ package com.matiazicelso.medicalschedule.ui.login
 
 
 import android.app.AlertDialog
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.textfield.TextInputEditText
 import com.matiazicelso.medicalschedule.R
+import com.matiazicelso.medicalschedule.utils.GoogleLogInActivityContract
 import com.matiazicelso.medicalschedule.viewModel.LoginViewModel
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
+
+
+    private val googleSignInRequest = registerForActivityResult(
+        GoogleLogInActivityContract(),
+        ::onGoogleSignInResult
+    )
+
+
+    private val googleSignInOptions : GoogleSignInOptions
+    get() = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestEmail()
+        .requestProfile()
+        .build()
+
 
     private val viewModel: LoginViewModel by viewModels()
     lateinit var progressBar: ProgressBar
@@ -27,6 +43,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val forgotBtn = view.findViewById<TextView>(R.id.login_forgot)
         val newAccountBtn = view.findViewById<TextView>(R.id.login_new_account)
         val loginBtn = view.findViewById<TextView>(R.id.login_btn)
+        val googleBtn = view.findViewById<Button>(R.id.login_google_btn)
 
         progressBar = view.findViewById(R.id.login_progressBar)
 
@@ -62,6 +79,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
 
+
+        googleBtn.setOnClickListener {
+            googleSignInRequest.launch(googleSignInOptions)
+        }
+
+
     }
 
     private fun loading(status: Boolean){
@@ -70,11 +93,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
 
     private fun login(view: View){
-
         val email = view.findViewById<TextInputEditText>(R.id.login_email)
         val password = view.findViewById<TextInputEditText>(R.id.login_password)
         viewModel.makeLogin(email?.text.toString(), password?.text.toString())
-
     }
 
 
@@ -86,6 +107,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             .setItems(items){dialog, item -> dialog.dismiss()}
             .show()
 
+    }
+
+
+    private fun onGoogleSignInResult(result: GoogleLogInActivityContract.Result?) {
+
+        if(result is GoogleLogInActivityContract.Result.Success){
+            val token = result.googleSignInAccount.idToken
+            Toast.makeText(requireContext(), "Meu Token no google é -> $token", Toast.LENGTH_LONG).show()
+        }
     }
 
 }
