@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.matiazicelso.medicalschedule.R
 import com.matiazicelso.medicalschedule.utils.GoogleLogInActivityContract
 import com.matiazicelso.medicalschedule.viewModel.LoginViewModel
+
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
@@ -29,6 +29,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private val googleSignInOptions : GoogleSignInOptions
     get() = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestIdToken(getString(R.string.google_client_id))
         .requestEmail()
         .requestProfile()
         .build()
@@ -37,6 +38,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()
     lateinit var progressBar: ProgressBar
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,6 +46,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val newAccountBtn = view.findViewById<TextView>(R.id.login_new_account)
         val loginBtn = view.findViewById<TextView>(R.id.login_btn)
         val googleBtn = view.findViewById<Button>(R.id.login_google_btn)
+        val facebookBtn = view.findViewById<Button>(R.id.login_facebook_btn)
 
         progressBar = view.findViewById(R.id.login_progressBar)
 
@@ -84,7 +87,20 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             googleSignInRequest.launch(googleSignInOptions)
         }
 
+        facebookBtn.setOnClickListener {
+            loginFacebook()
+        }
 
+    }
+
+
+
+
+    private fun loginFacebook() {
+        viewModel.loginManager.logInWithReadPermissions(
+            this,
+            viewModel.callbackManager,
+            listOf("public_profile", "email"))
     }
 
     private fun loading(status: Boolean){
@@ -110,12 +126,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
 
-    private fun onGoogleSignInResult(result: GoogleLogInActivityContract.Result?) {
-
-        if(result is GoogleLogInActivityContract.Result.Success){
-            val token = result.googleSignInAccount.idToken
-            Toast.makeText(requireContext(), "Meu Token no google é -> $token", Toast.LENGTH_LONG).show()
-        }
+    private fun onGoogleSignInResult(result: GoogleLogInActivityContract.Result) {
+        viewModel.loginGoogle(result)
     }
+
+
+
 
 }

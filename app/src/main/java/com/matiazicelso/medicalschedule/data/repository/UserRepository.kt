@@ -7,9 +7,7 @@ import kotlinx.coroutines.flow.*
 
 class UserRepository(private val api: Api = Api.instance) {
     fun fetchProfile() : Flow<ProfileResponse> = flow {
-
             emit(api.getProfile())
-
     }.flowOn(Dispatchers.IO)
 
 
@@ -18,9 +16,3 @@ class UserRepository(private val api: Api = Api.instance) {
     }
 }
 
-//fun fetchProfile() : Flow<DataResult<ProfileResponse>> = flow<DataResult<ProfileResponse>> {
-//    emit(DataResult.Success(api.getProfile()))
-//}.catch { e ->  emit(DataResult.Error(e)) }
-//    .onStart { emit(DataResult.Loading(true)) }
-//    .onCompletion { emit(DataResult.Loading(false)) }
-//    .flowOn(Dispatchers.IO)

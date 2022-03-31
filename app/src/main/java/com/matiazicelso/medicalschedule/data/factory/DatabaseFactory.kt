@@ -10,7 +10,7 @@ object DatabaseFactory {
 
     fun getDatabase(context: Context) = instance ?: build(context)
 
-    private fun build(context: Context): AppDatabase{
+    fun build(context: Context): AppDatabase{
         val database = Room.databaseBuilder(
             context.applicationContext,
             AppDatabase::class.java,

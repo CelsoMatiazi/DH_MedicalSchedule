@@ -5,4 +5,12 @@
     <string name="Forgot_pass_subtitle">Enter your email for the verification proccesss, we will send 4 digits code to your email.</string>
     <string name="reset_pass_subtitle">Set the new password for your account so you can login and access all the features.</string>
     <string name="book_now">Book Now</string>
+
+
+
+    <string name="facebook_app_id">481455460187091</string>
+    <string name="facebook_client_token">0fd052cf3b08eeaf8cf0ed76e38ec7dd</string>
+    <string name="google_client_id">67608647813-pkjachl1v873keid7lto7enpg5htvfti.apps.googleusercontent.com</string>
+
+
 </resources>
