@@ -102,7 +102,6 @@ class LoginViewModel(
         }
     }
 
-
     companion object {
         const val FACEBOOK_ARGS = "FACEBOOK"
         const val GOOGLE_ARGS = "GOOGLE"
