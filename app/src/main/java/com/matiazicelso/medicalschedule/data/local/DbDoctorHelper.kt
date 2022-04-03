@@ -16,7 +16,6 @@ class DbDoctorHelper(context: Context) {
 
     private val db = DbHelper(context, sqlCreationEntries, sqlDeleteEntries)
 
-
     fun insert(values: ContentValues.() -> Unit): Long{
         return db.writableDatabase.insert(
             DoctorEntry.TABLE_NAME,
@@ -40,65 +39,6 @@ class DbDoctorHelper(context: Context) {
             "${BaseColumns._ID} = ?",
             arrayOf(id.toString())
         )
-    }
-
-
-    fun listAllWithId(id_api: String): MutableList<DoctorItem>{
-        val projection = arrayOf(
-            BaseColumns._ID,
-            COLUMN_NAME_NAME,
-            COLUMN_NAME_PHOTO,
-            COLUMN_NAME_SPECIALIZATION,
-            COLUMN_NAME_CLASSIFICATION,
-            COLUMN_NAME_VIEWS,
-            COLUMN_NAME_API_ID
-        )
-
-        val selection = "$COLUMN_NAME_API_ID = ?"
-        val selectionValue = arrayOf(id_api)
-
-        val order = "${BaseColumns._ID}"
-
-        val doctorList = mutableListOf<DoctorItem>()
-
-        val cursor = db.readableDatabase.query(
-            DoctorEntry.TABLE_NAME,
-            projection,
-            selection,
-            selectionValue,
-            null,
-            null,
-            order
-        )
-
-        with(cursor){
-            while (moveToNext()){
-                val id = getLong(getColumnIndexOrThrow(BaseColumns._ID))
-                val name = getString(getColumnIndexOrThrow(COLUMN_NAME_NAME))
-                val photo = getString(getColumnIndexOrThrow(COLUMN_NAME_PHOTO))
-                val specialization = getString(getColumnIndexOrThrow(COLUMN_NAME_SPECIALIZATION))
-                val classification = getString(getColumnIndexOrThrow(COLUMN_NAME_CLASSIFICATION))
-                val views = getString(getColumnIndexOrThrow(COLUMN_NAME_VIEWS))
-                val id_api = getString(getColumnIndexOrThrow(COLUMN_NAME_API_ID))
-
-                println("$id | $name | $photo")
-
-                doctorList.add(
-                    DoctorItem(
-                        id_api,
-                        name,
-                        photo,
-                        specialization,
-                        classification.toDouble(),
-                        views.toInt()
-                    )
-                )
-            }
-        }
-
-        cursor.close()
-        return doctorList
-
     }
 
 

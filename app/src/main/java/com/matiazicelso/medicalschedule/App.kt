@@ -1,7 +1,8 @@
-package com.matiazicelso.medicalschedule.utils
+package com.matiazicelso.medicalschedule
 
 import android.app.Application
 import android.content.Context
+import com.facebook.appevents.AppEventsLogger
 
 import com.matiazicelso.medicalschedule.data.factory.DatabaseFactory
 

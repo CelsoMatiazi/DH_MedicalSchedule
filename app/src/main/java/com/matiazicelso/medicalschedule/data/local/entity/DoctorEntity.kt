@@ -20,7 +20,7 @@ data class DoctorEntity(
     val specialization: String = "",
 
     @ColumnInfo
-    val classification: Int = 0,
+    val classification: Double = 0.0,
 
     @ColumnInfo
     val experience: Int = 1,
@@ -33,4 +33,5 @@ data class DoctorEntity(
 
     @ColumnInfo(name = "api_id")
     val apiId: String = "",
+
 )

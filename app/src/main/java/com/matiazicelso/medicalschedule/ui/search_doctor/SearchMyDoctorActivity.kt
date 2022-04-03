@@ -13,15 +13,6 @@ import com.matiazicelso.medicalschedule.R
 import com.matiazicelso.medicalschedule.data.factory.DatabaseFactory
 import com.matiazicelso.medicalschedule.data.local.AppDatabase
 import com.matiazicelso.medicalschedule.data.local.DbDoctorHelper
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntity
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_API_ID
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_CLASSIFICATION
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_EXPERIENCE
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_NAME
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_PATIENT_STORIES
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_PHOTO
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_SPECIALIZATION
-import com.matiazicelso.medicalschedule.data.local.entity.DoctorEntry.COLUMN_NAME_VIEWS
 import com.matiazicelso.medicalschedule.data.model.DoctorItem
 import com.matiazicelso.medicalschedule.data.netWork.DataResult
 import com.matiazicelso.medicalschedule.viewModel.DoctorViewModel
@@ -32,13 +23,11 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
     private val viewModel: DoctorViewModel by viewModels()
     private val loading: FrameLayout by lazy { findViewById(R.id.search_loading) }
     private val recycler: RecyclerView by lazy { findViewById(R.id.search_recycler) }
-    private val adapter = SearchDoctorAdapter()
+    private val adapter = SearchDoctorAdapter(::save)
     var page: Int = 1
     var pageLimit: Int = 1
     var doctorListDb = mutableListOf<DoctorItem>()
 
-    private lateinit var dbDoctorHelper : DbDoctorHelper
-    private lateinit var dbRoom: AppDatabase
 
     private lateinit var floatingBtn : FloatingActionButton
 
@@ -47,9 +36,6 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
         super.onCreate(savedInstanceState)
         this.supportActionBar?.hide()
 
-        dbDoctorHelper = DbDoctorHelper(this)
-        dbRoom = DatabaseFactory.getDatabase(this)
-
         floatingBtn = findViewById(R.id.floating_btn_doctors)
 
         recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -57,10 +43,9 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
 
         floatingBtn.setOnClickListener {
             adapter.updateListDB(doctorListDb)
-            adapter.notifyDataSetChanged()
+            //adapter.notifyDataSetChanged()
         }
 
-        //viewModel.loadDoctor(page)
         setScrollView() //controla a paginação
         loadDoctors(page)
     }
@@ -74,48 +59,19 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
 
 
     private fun save(doctor: DoctorItem){
-        println("SAVE")
-        val id = dbDoctorHelper.insert {
-            put(COLUMN_NAME_NAME, doctor.name + " *")
-            put(COLUMN_NAME_PHOTO, doctor.photo)
-            put(COLUMN_NAME_SPECIALIZATION, doctor.specialization)
-            put(COLUMN_NAME_CLASSIFICATION, doctor.classification.toString())
-            put(COLUMN_NAME_EXPERIENCE, "")
-            put(COLUMN_NAME_PATIENT_STORIES, "")
-            put(COLUMN_NAME_VIEWS, doctor.views.toString())
-            put(COLUMN_NAME_API_ID, doctor.id)
+
+        viewModel.addOrRemoveFavorite(doctor).observe(this){
+            if(it is DataResult.Success){
+                adapter.updateItem(it.data)
+            }
+
         }
 
-        println(id)
-        listWithId(doctor.id)
-       // deleteDoctor(id)
-
-        //++++++++++++++++++ ROOM ++++++++++++++++++++++
-
-        val myDoctor = DoctorEntity(
-            name = "DR. Adalberto",
-            photo = "url da foto"
-        )
-
-        dbRoom.doctorDao().insert(myDoctor)
-        val doctors = dbRoom.doctorDao().listAll()
-        println(doctors)
-
     }
-
-    private fun deleteDoctor(id: Long) {
-       dbDoctorHelper.delete(id)
-    }
-
-    private fun listWithId(name: String){
-        doctorListDb.addAll(dbDoctorHelper.listAllWithId(name))
-    }
-
 
     private fun loadDoctors(page: Int) {
 
         viewModel.loadDoctor(page).observe(this){
-
             when(it){
                 is DataResult.Loading -> {loading.isVisible = it.isLoading}
                 is DataResult.Error -> {
@@ -127,20 +83,7 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
                     pageLimit = it.data.limit_page
                 }
             }
-
         }
-
-//        viewModel.loading.observe(this){ loading.isVisible = it }
-//        viewModel.error.observe(this) {
-//            if(it){
-//                Toast.makeText(this, "Deu Erro", Toast.LENGTH_SHORT ).show()
-//            }
-//        }
-//        viewModel.doctors.observe(this){
-//            adapter.updateList(it.doctors)
-//            pageLimit = it.limit_page
-//            //saveDoctorsDb(it.doctors)
-//        }
     }
 
 
@@ -158,10 +101,6 @@ class SearchMyDoctorActivity : AppCompatActivity(R.layout.activity_search_my_doc
                     if( (totalItemCount > 0 && lastItem) && (page < pageLimit && loading.isVisible.not()) ){
                         page++
                         loadDoctors(page)
-
-                        println("PRINT PAGE")
-                        println(page)
-
                     }
                 }
             })
